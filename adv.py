@@ -28,50 +28,50 @@ player = Player(world.starting_room)
 # Fill this out with directions to walk
 # traversal_path = ['n', 'n']
 traversal_path = []
-graph = {}
+our_graph = {}
 reverse = []
-opposites = {'n': 's', 's': 'n', 'e': 'w', 'w': 'e'}
+opposite_direction = {'e': 'w', 'w': 'e', 'n': 's', 's': 'n'}
 
 # starting room
-graph[player.current_room.id] = player.current_room.get_exits()
+our_graph[player.current_room.id] = player.current_room.get_exits()
 
 # begins traversal loop
-while len(graph) < len(room_graph)-1:
+while len(our_graph) < len(room_graph)-1:
 
     # track room
-    # if room not visited
-    if player.current_room.id not in graph:
+    # if room is not visited
+    if player.current_room.id not in our_graph:
 
-        # add it & its' exits to graph
-        graph[player.current_room.id] = player.current_room.get_exits()
+        # add it to graph
+        our_graph[player.current_room.id] = player.current_room.get_exits()
 
-        # remove last direction from its' unexplored exits
+        # remove latest direction from the unexplored exits
         last_direction = reverse[-1]
-        graph[player.current_room.id].remove(last_direction)
+        our_graph[player.current_room.id].remove(last_direction)
 
     # track exits
-    # no unexplored exits
-    # loop while no exits (walking back through reverse until there are unexeplored exits)
-    while len(graph[player.current_room.id]) == 0:
+    # there is no unexplored exits
+    # loop while there is no exits
+    while len(our_graph[player.current_room.id]) == 0:
 
-        # remove last direction from reverse
+        # remove latest direction from reverse
         goBack = reverse.pop()
 
-        # add that last one to traversal_path
+        # add that latest one to traversal_path
         traversal_path.append(goBack)
 
         # travel back at it
         player.travel(goBack)
 
-    # available exits?
+    # Is there an available exits?
     # get first available exit
-    goForward = graph[player.current_room.id].pop(0)
+    goForward = our_graph[player.current_room.id].pop(0)
 
     # add exit to traversal_path
     traversal_path.append(goForward)
 
     # add opposite direction to reverse
-    reverse.append(opposites[goForward])
+    reverse.append(opposite_direction[goForward])
 
     # travel to exit
     player.travel(goForward)
