@@ -55,26 +55,26 @@ while len(our_graph) < len(room_graph)-1:
     while len(our_graph[player.current_room.id]) == 0:
 
         # remove latest direction from reverse
-        goBack = reverse.pop()
+        moveBack = reverse.pop()
 
         # add that latest one to traversal_path
-        traversal_path.append(goBack)
+        traversal_path.append(moveBack)
 
         # travel back at it
-        player.travel(goBack)
+        player.travel(moveBack)
 
     # Is there an available exits?
     # get first available exit
-    goForward = our_graph[player.current_room.id].pop(0)
+    moveForward = our_graph[player.current_room.id].pop(0)
 
     # add exit to traversal_path
-    traversal_path.append(goForward)
+    traversal_path.append(moveForward)
 
     # add opposite direction to reverse
-    reverse.append(opposite_direction[goForward])
+    reverse.append(opposite_direction[moveForward])
 
     # travel to exit
-    player.travel(goForward)
+    player.travel(moveForward)
 
 
 # TRAVERSAL TEST
